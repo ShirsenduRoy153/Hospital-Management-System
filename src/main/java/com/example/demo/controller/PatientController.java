@@ -23,22 +23,22 @@ public class PatientController {
     private final PatientService patientService;
 
     @GetMapping("/showAll")
-    public List<PatientDto> getShowAll() {
-        return patientService.getShowAllfromService();
+    public List<PatientDto> showAll() {
+        return patientService.showAllfromService();
     }
 
     @GetMapping("/showById")
-    public PatientDto getShowById(@PathVariable Long id) {
-        return patientService.getShowByIdfromService(id);
+    public PatientDto showById(@PathVariable Long id) {
+        return patientService.showByIdfromService(id);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<PatientDto> postCreate(PatientDto patientDto) {
-        return patientService.postCreatefromService(patientDto);
+    public ResponseEntity<PatientDto> create(PatientDto patientDto) {
+        return patientService.createfromService(patientDto);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteId(@PathVariable Long id) {
-        return patientService.deleteIdfromService(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        return patientService.deleteByIdfromService(id);
     }
 }

@@ -17,28 +17,51 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class DoctorService {
-    private final DoctorRepository doctorRepo;
+    private final DoctorRepository doctorRepository;
     private final ModelMapper modelMapper;
 
+    // POST
+    public ResponseEntity<Void> createfromService(DoctorDto doctorDto) {
+        doctorRepository.save(modelMapper.map(doctorDto, Doctor.class));
+        return ResponseEntity.status(HttpStatus.CREATED).build(); // or body(modelMapper...)
+    }
+
     // GET ALL
-    public ResponseEntity<List<DoctorDto>> getAllfromService() {
-        List<Doctor> doctors = doctorRepo.findAll();
+    public ResponseEntity<List<DoctorDto>> showAllfromService() {
+        List<Doctor> doctors = doctorRepository.findAll();
         return ResponseEntity.ok(doctors.stream().map(doct -> modelMapper.map(doct, DoctorDto.class)).toList());
     }
 
     // GET BY ID
-    public ResponseEntity<DoctorDto> getByIdfromService(long id) {
-        Optional<Doctor> doctorOptional = doctorRepo.findById(id);
+    public ResponseEntity<DoctorDto> showByIdfromService(long id) {
+        Optional<Doctor> doctorOptional = doctorRepository.findById(id);
         if (doctorOptional.isPresent()) {
             return ResponseEntity.ok(modelMapper.map(doctorOptional, DoctorDto.class));
         } else
-            throw new RuntimeException("Doctor not present");
+            return ResponseEntity.ok().build();
     }
 
-    // POST
-    public ResponseEntity<Void> postfromService(DoctorDto doctorDto) {
-        doctorRepo.save(modelMapper.map(doctorDto, Doctor.class));
-        return ResponseEntity.status(HttpStatus.CREATED).build(); // or body(modelMapper...)
+    // Update
+    public ResponseEntity<DoctorDto> updatefromService(Long id, DoctorDto doctorDto) {
+        Optional<Doctor> doctor = doctorRepository.findById(id);
+        if (doctor.isPresent()) {
+            doctor.get().setName(doctorDto.getName());
+            doctor.get().setAge(doctorDto.getAge());
+            doctor.get().setSpecialization(doctorDto.getSpecialization());
+            doctor.get().setDepartment(doctorDto.getDepartment());
+            doctorRepository.save(doctor.get());
+            return ResponseEntity.ok().body(doctorDto);
+        } else
+            return ResponseEntity.noContent().build();
     }
 
+    // DELETE
+    public ResponseEntity<Void> deletefromService(Long id) {
+        Optional<Doctor> doctor = doctorRepository.findById(id);
+        if (doctor.isPresent()) {
+            doctorRepository.delete(doctor.get());
+            return ResponseEntity.ok().build();
+        } else
+            return ResponseEntity.noContent().build();
+    }
 }

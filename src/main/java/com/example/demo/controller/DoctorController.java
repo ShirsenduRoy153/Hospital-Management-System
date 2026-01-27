@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/doctor")
@@ -23,18 +24,23 @@ public class DoctorController {
     private final DoctorService doctorSer;
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<DoctorDto>> getAll() {
-        return doctorSer.getAllfromService();
+    public ResponseEntity<List<DoctorDto>> showAll() {
+        return doctorSer.showAllfromService();
     }
 
     @GetMapping("/getById/{id}")
-    public ResponseEntity<DoctorDto> getById(@PathVariable long id) {
-        return doctorSer.getByIdfromService(id);
+    public ResponseEntity<DoctorDto> showById(@PathVariable long id) {
+        return doctorSer.showByIdfromService(id);
     }
 
     @PostMapping("/post")
-    public void postMethodName(@RequestBody DoctorDto doctorDto) {
-        doctorSer.postfromService(doctorDto);
+    public ResponseEntity<Void> create(@RequestBody DoctorDto doctorDto) {
+        return doctorSer.createfromService(doctorDto);
+    }
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<DoctorDto> putMethodName(@PathVariable Long id, @RequestBody DoctorDto doctorDto) {
+        return doctorSer.updatefromService(id, doctorDto);
     }
 
 }

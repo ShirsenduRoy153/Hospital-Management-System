@@ -19,26 +19,26 @@ public class PatientService {
     private final ModelMapper modelMapper;
     private final PatientRepository patientRepository;
 
-    public List<PatientDto> getShowAllfromService() {
+    public List<PatientDto> showAllfromService() {
         List<Patient> patients = patientRepository.findAll();
         return patients.stream().map(temp -> modelMapper.map(temp, PatientDto.class)).toList();
     }
 
-    public PatientDto getShowByIdfromService(Long id) {
+    public PatientDto showByIdfromService(Long id) {
         Optional<Patient> patient = patientRepository.findById(id);
         return modelMapper.map(patient, PatientDto.class);
     }
 
-    public ResponseEntity<PatientDto> postCreatefromService(PatientDto patientDto) {
+    public ResponseEntity<PatientDto> createfromService(PatientDto patientDto) {
         patientRepository.save(modelMapper.map(patientDto, Patient.class));
         return ResponseEntity.ok().body(patientDto);
     }
 
-    public ResponseEntity<Void> deleteIdfromService(Long id) {
+    public ResponseEntity<Void> deleteByIdfromService(Long id) {
         Optional<Patient> patient = patientRepository.findById(id);
         if (patient.isPresent()) {
             patientRepository.delete(patient.get());
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
         }
