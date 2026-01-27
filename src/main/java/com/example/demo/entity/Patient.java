@@ -44,8 +44,8 @@ public class Patient {
     @Column
     Float weight;
 
-    // @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
-    // private List<Appointment> appointments;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<Appointment> appointments;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<MedicalRecord> medical_records;

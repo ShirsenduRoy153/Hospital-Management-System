@@ -15,5 +15,5 @@ public class PatientDto {
     private Float height;
     private Float weight;
     private List<MedicalRecordDto> medicalRecords;
-    // private List<AppointmentDto> appointments;
+    private List<AppointmentDto> appointments;
 }

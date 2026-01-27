@@ -45,9 +45,9 @@ public class Appointment {
     @Column
     private LocalTime appointmentTime;
 
-    // @ManyToOne
-    // @JoinColumn(name = "fk_patient_id", nullable = false)
-    // private Patient patient;
+    @ManyToOne
+    @JoinColumn(name = "fk_patient_id", nullable = false)
+    private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "fk_doctor_id", nullable = false)
