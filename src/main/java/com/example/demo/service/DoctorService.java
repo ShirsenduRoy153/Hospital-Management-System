@@ -38,7 +38,7 @@ public class DoctorService {
         if (doctorOptional.isPresent()) {
             return ResponseEntity.ok(modelMapper.map(doctorOptional, DoctorDto.class));
         } else
-            return ResponseEntity.ok().build();
+            return ResponseEntity.notFound().build();
     }
 
     // Update

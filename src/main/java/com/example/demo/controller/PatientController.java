@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class PatientController {
     private final PatientService patientService;
 
-    @GetMapping("/showAll")
-    public List<PatientDto> showAll() {
+    @GetMapping("/getAll")
+    public ResponseEntity<List<PatientDto>> showAllPat() {
         return patientService.showAllfromService();
     }
 
-    @GetMapping("/showById")
-    public PatientDto showById(@PathVariable Long id) {
+    @GetMapping("/showsById/{id}")
+    public ResponseEntity<PatientDto> showById(@PathVariable Long id) {
         return patientService.showByIdfromService(id);
     }
 

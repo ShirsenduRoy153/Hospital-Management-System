@@ -19,14 +19,18 @@ public class PatientService {
     private final ModelMapper modelMapper;
     private final PatientRepository patientRepository;
 
-    public List<PatientDto> showAllfromService() {
+    public ResponseEntity<List<PatientDto>> showAllfromService() {
         List<Patient> patients = patientRepository.findAll();
-        return patients.stream().map(temp -> modelMapper.map(temp, PatientDto.class)).toList();
+        return ResponseEntity.ok()
+                .body(patients.stream().map(temp -> modelMapper.map(temp, PatientDto.class)).toList());
     }
 
-    public PatientDto showByIdfromService(Long id) {
+    public ResponseEntity<PatientDto> showByIdfromService(Long id) {
         Optional<Patient> patient = patientRepository.findById(id);
-        return modelMapper.map(patient, PatientDto.class);
+        if (patient.isPresent())
+            return ResponseEntity.ok().body(modelMapper.map(patient, PatientDto.class));
+        else
+            return ResponseEntity.notFound().build();
     }
 
     public ResponseEntity<PatientDto> createfromService(PatientDto patientDto) {

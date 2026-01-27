@@ -24,7 +24,7 @@ public class DoctorController {
     private final DoctorService doctorSer;
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<DoctorDto>> showAll() {
+    public ResponseEntity<List<DoctorDto>> showAllDoc() {
         return doctorSer.showAllfromService();
     }
 
