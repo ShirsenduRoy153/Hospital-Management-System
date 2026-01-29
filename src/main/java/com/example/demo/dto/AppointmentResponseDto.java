@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppointmentDto {
+public class AppointmentResponseDto {
     private Long appointment_id;
     private LocalDate appointmentDate;
     private DayOfWeek dayOfWeek;
     private LocalTime appointmentTime;
-    private PatientDto patientDto;
-    private DoctorDto doctorDto;
+    private AppointmentResponseDto patientDto;
+    private DoctorResponseDto doctorDto;
 }

@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PatientDto {
+public class PatientResponseDto {
     private String name;
     private Integer age;
     private Float height;
     private Float weight;
     private List<MedicalRecordDto> medicalRecords;
-    // private List<AppointmentDto> appointments;
+    private List<AppointmentResponseDto> appointments;
 }

@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class DoctorDto {
+public class DoctorResponseDto {
     private Long doctor_id;
     private String name;
     private Integer age;
     private String specialization;
     private String department;
-    private List<AppointmentDto> appointments;
+    private List<AppointmentResponseDto> appointments;
 }
