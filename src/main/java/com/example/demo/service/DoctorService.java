@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.DoctorDto;
+import com.example.demo.dto.DoctorRequestDto;
+import com.example.demo.dto.DoctorResponseDto;
 import com.example.demo.entity.Doctor;
 import com.example.demo.repository.DoctorRepository;
 
@@ -21,28 +22,28 @@ public class DoctorService {
     private final ModelMapper modelMapper;
 
     // POST
-    public ResponseEntity<Void> createfromService(DoctorDto doctorDto) {
+    public ResponseEntity<Void> createfromService(DoctorRequestDto doctorDto) {
         doctorRepository.save(modelMapper.map(doctorDto, Doctor.class));
         return ResponseEntity.status(HttpStatus.CREATED).build(); // or body(modelMapper...)
     }
 
     // GET ALL
-    public ResponseEntity<List<DoctorDto>> showAllfromService() {
+    public ResponseEntity<List<DoctorResponseDto>> showAllfromService() {
         List<Doctor> doctors = doctorRepository.findAll();
-        return ResponseEntity.ok(doctors.stream().map(doct -> modelMapper.map(doct, DoctorDto.class)).toList());
+        return ResponseEntity.ok(doctors.stream().map(doct -> modelMapper.map(doct, DoctorResponseDto.class)).toList());
     }
 
     // GET BY ID
-    public ResponseEntity<DoctorDto> showByIdfromService(long id) {
+    public ResponseEntity<DoctorResponseDto> showByIdfromService(long id) {
         Optional<Doctor> doctorOptional = doctorRepository.findById(id);
         if (doctorOptional.isPresent()) {
-            return ResponseEntity.ok(modelMapper.map(doctorOptional, DoctorDto.class));
+            return ResponseEntity.ok(modelMapper.map(doctorOptional, DoctorResponseDto.class));
         } else
             return ResponseEntity.notFound().build();
     }
 
     // Update
-    public ResponseEntity<DoctorDto> updatefromService(Long id, DoctorDto doctorDto) {
+    public ResponseEntity<DoctorRequestDto> updatefromService(Long id, DoctorRequestDto doctorDto) {
         Optional<Doctor> doctor = doctorRepository.findById(id);
         if (doctor.isPresent()) {
             doctor.get().setName(doctorDto.getName());

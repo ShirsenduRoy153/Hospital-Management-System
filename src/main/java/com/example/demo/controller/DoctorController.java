@@ -3,7 +3,8 @@ package com.example.demo.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.DoctorDto;
+import com.example.demo.dto.DoctorRequestDto;
+import com.example.demo.dto.DoctorResponseDto;
 import com.example.demo.service.DoctorService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,22 +25,23 @@ public class DoctorController {
     private final DoctorService doctorSer;
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<DoctorDto>> showAllDoc() {
+    public ResponseEntity<List<DoctorResponseDto>> showAllDoc() {
         return doctorSer.showAllfromService();
     }
 
     @GetMapping("/getById/{id}")
-    public ResponseEntity<DoctorDto> showById(@PathVariable long id) {
+    public ResponseEntity<DoctorResponseDto> showById(@PathVariable long id) {
         return doctorSer.showByIdfromService(id);
     }
 
     @PostMapping("/post")
-    public ResponseEntity<Void> create(@RequestBody DoctorDto doctorDto) {
+    public ResponseEntity<Void> create(@RequestBody DoctorRequestDto doctorDto) {
         return doctorSer.createfromService(doctorDto);
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<DoctorDto> putMethodName(@PathVariable Long id, @RequestBody DoctorDto doctorDto) {
+    public ResponseEntity<DoctorRequestDto> putMethodName(@PathVariable Long id,
+            @RequestBody DoctorRequestDto doctorDto) {
         return doctorSer.updatefromService(id, doctorDto);
     }
 

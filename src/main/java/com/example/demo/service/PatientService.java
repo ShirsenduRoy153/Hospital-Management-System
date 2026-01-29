@@ -7,7 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.PatientDto;
+import com.example.demo.dto.PatientRequestDto;
+import com.example.demo.dto.PatientResponseDto;
 import com.example.demo.entity.Patient;
 import com.example.demo.repository.PatientRepository;
 
@@ -19,25 +20,28 @@ public class PatientService {
     private final ModelMapper modelMapper;
     private final PatientRepository patientRepository;
 
-    public ResponseEntity<List<PatientDto>> showAllfromService() {
+    // GET
+    public ResponseEntity<List<PatientResponseDto>> showAllfromService() {
         List<Patient> patients = patientRepository.findAll();
         return ResponseEntity.ok()
-                .body(patients.stream().map(temp -> modelMapper.map(temp, PatientDto.class)).toList());
+                .body(patients.stream().map(temp -> modelMapper.map(temp, PatientResponseDto.class)).toList());
     }
 
-    public ResponseEntity<PatientDto> showByIdfromService(Long id) {
+    public ResponseEntity<PatientResponseDto> showByIdfromService(Long id) {
         Optional<Patient> patient = patientRepository.findById(id);
         if (patient.isPresent())
-            return ResponseEntity.ok().body(modelMapper.map(patient, PatientDto.class));
+            return ResponseEntity.ok().body(modelMapper.map(patient, PatientResponseDto.class));
         else
             return ResponseEntity.notFound().build();
     }
 
-    public ResponseEntity<PatientDto> createfromService(PatientDto patientDto) {
+    // CREATE
+    public ResponseEntity<PatientRequestDto> createfromService(PatientRequestDto patientDto) {
         patientRepository.save(modelMapper.map(patientDto, Patient.class));
         return ResponseEntity.ok().body(patientDto);
     }
 
+    // DELETE
     public ResponseEntity<Void> deleteByIdfromService(Long id) {
         Optional<Patient> patient = patientRepository.findById(id);
         if (patient.isPresent()) {

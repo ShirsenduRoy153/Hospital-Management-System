@@ -3,7 +3,8 @@ package com.example.demo.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.PatientDto;
+import com.example.demo.dto.PatientRequestDto;
+import com.example.demo.dto.PatientResponseDto;
 import com.example.demo.service.PatientService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,17 +24,17 @@ public class PatientController {
     private final PatientService patientService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<PatientDto>> showAllPat() {
+    public ResponseEntity<List<PatientResponseDto>> showAllPat() {
         return patientService.showAllfromService();
     }
 
     @GetMapping("/showsById/{id}")
-    public ResponseEntity<PatientDto> showById(@PathVariable Long id) {
+    public ResponseEntity<PatientResponseDto> showById(@PathVariable Long id) {
         return patientService.showByIdfromService(id);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<PatientDto> create(PatientDto patientDto) {
+    public ResponseEntity<PatientRequestDto> create(PatientRequestDto patientDto) {
         return patientService.createfromService(patientDto);
     }
 
