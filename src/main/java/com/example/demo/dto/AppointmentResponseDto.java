@@ -16,6 +16,6 @@ public class AppointmentResponseDto {
     private LocalDate appointmentDate;
     private DayOfWeek dayOfWeek;
     private LocalTime appointmentTime;
-    private AppointmentResponseDto patientDto;
+    private PatientResponseDto patientDto;
     private DoctorResponseDto doctorDto;
 }

@@ -49,7 +49,7 @@ public class DoctorController {
     }
 
     // delete
-    @DeleteMapping("/delete/{id")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         return doctorService.deletefromService(id);
     }

@@ -56,6 +56,31 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/DoctorRequestDto"
+  /appointment/update/{id}:
+    put:
+      tags:
+      - appointment-controller
+      operationId: update_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppointmentRequestDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AppointmentRequestDto"
   /patient/create:
     post:
       tags:
@@ -80,6 +105,20 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/DoctorRequestDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+  /appointment/create:
+    post:
+      tags:
+      - appointment-controller
+      operationId: create_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppointmentRequestDto"
         required: true
       responses:
         "200":
@@ -150,6 +189,39 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DoctorResponseDto"
+  /appointment/read:
+    get:
+      tags:
+      - appointment-controller
+      operationId: read
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AppointmentResponseDto"
+  /appointment/read/{id}:
+    get:
+      tags:
+      - appointment-controller
+      operationId: readById_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AppointmentResponseDto"
   /patient/delete:
     delete:
       tags:
@@ -164,6 +236,21 @@ paths:
       tags:
       - doctor-controller
       operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /appointment/delete/{id}:
+    delete:
+      tags:
+      - appointment-controller
+      operationId: delete_1
       parameters:
       - name: id
         in: path
@@ -202,6 +289,45 @@ components:
           type: string
         department:
           type: string
+    AppointmentRequestDto:
+      type: object
+      properties:
+        appointmentDate:
+          type: string
+          format: date
+        dayOfWeek:
+          type: string
+          enum:
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+          - THURSDAY
+          - FRIDAY
+          - SATURDAY
+          - SUNDAY
+        appointmentTime:
+          $ref: "#/components/schemas/LocalTime"
+        doctor_id:
+          type: integer
+          format: int64
+        patient_id:
+          type: integer
+          format: int64
+    LocalTime:
+      type: object
+      properties:
+        hour:
+          type: integer
+          format: int32
+        minute:
+          type: integer
+          format: int32
+        second:
+          type: integer
+          format: int32
+        nano:
+          type: integer
+          format: int32
     AppointmentResponseDto:
       type: object
       properties:
@@ -224,7 +350,7 @@ components:
         appointmentTime:
           $ref: "#/components/schemas/LocalTime"
         patientDto:
-          $ref: "#/components/schemas/AppointmentResponseDto"
+          $ref: "#/components/schemas/PatientResponseDto"
         doctorDto:
           $ref: "#/components/schemas/DoctorResponseDto"
     DoctorResponseDto:
@@ -242,21 +368,6 @@ components:
           type: string
         department:
           type: string
-    LocalTime:
-      type: object
-      properties:
-        hour:
-          type: integer
-          format: int32
-        minute:
-          type: integer
-          format: int32
-        second:
-          type: integer
-          format: int32
-        nano:
-          type: integer
-          format: int32
     MedicalRecordResponseDto:
       type: object
       properties:

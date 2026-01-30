@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,9 @@ public class PatientService {
     private final PatientRepository patientRepository;
 
     // create
-    public ResponseEntity<PatientRequestDto> createfromService(PatientRequestDto patientDto) {
+    public ResponseEntity<Void> createfromService(PatientRequestDto patientDto) {
         patientRepository.save(modelMapper.map(patientDto, Patient.class));
-        return ResponseEntity.ok().body(patientDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     // update

@@ -48,9 +48,9 @@ public class DoctorService {
     }
 
     public ResponseEntity<DoctorResponseDto> readByIdfromService(long id) {
-        Optional<Doctor> doctorOptional = doctorRepository.findById(id);
-        if (doctorOptional.isPresent()) {
-            return ResponseEntity.ok(modelMapper.map(doctorOptional, DoctorResponseDto.class));
+        Optional<Doctor> doctor = doctorRepository.findById(id);
+        if (doctor.isPresent()) {
+            return ResponseEntity.ok(modelMapper.map(doctor.get(), DoctorResponseDto.class));
         } else
             return ResponseEntity.notFound().build();
     }
