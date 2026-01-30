@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,27 +23,36 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/doctor")
 @RequiredArgsConstructor
 public class DoctorController {
-    private final DoctorService doctorSer;
+    private final DoctorService doctorService;
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<DoctorResponseDto>> showAllDoc() {
-        return doctorSer.showAllfromService();
-    }
-
-    @GetMapping("/getById/{id}")
-    public ResponseEntity<DoctorResponseDto> showById(@PathVariable long id) {
-        return doctorSer.showByIdfromService(id);
-    }
-
-    @PostMapping("/post")
+    // create
+    @PostMapping("/create")
     public ResponseEntity<Void> create(@RequestBody DoctorRequestDto doctorDto) {
-        return doctorSer.createfromService(doctorDto);
+        return doctorService.createfromService(doctorDto);
     }
 
+    // update
     @PutMapping("update/{id}")
-    public ResponseEntity<DoctorRequestDto> putMethodName(@PathVariable Long id,
+    public ResponseEntity<DoctorRequestDto> update(@PathVariable Long id,
             @RequestBody DoctorRequestDto doctorDto) {
-        return doctorSer.updatefromService(id, doctorDto);
+        return doctorService.updatefromService(id, doctorDto);
+    }
+
+    // read
+    @GetMapping("/readAll")
+    public ResponseEntity<List<DoctorResponseDto>> readAll() {
+        return doctorService.readAllfromService();
+    }
+
+    @GetMapping("/readById/{id}")
+    public ResponseEntity<DoctorResponseDto> readById(@PathVariable long id) {
+        return doctorService.readByIdfromService(id);
+    }
+
+    // delete
+    @DeleteMapping("/delete/{id")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        return doctorService.deletefromService(id);
     }
 
 }

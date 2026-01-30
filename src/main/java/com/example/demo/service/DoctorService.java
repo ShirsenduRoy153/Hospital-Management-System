@@ -21,25 +21,10 @@ public class DoctorService {
     private final DoctorRepository doctorRepository;
     private final ModelMapper modelMapper;
 
-    // POST
+    // Create
     public ResponseEntity<Void> createfromService(DoctorRequestDto doctorDto) {
         doctorRepository.save(modelMapper.map(doctorDto, Doctor.class));
         return ResponseEntity.status(HttpStatus.CREATED).build(); // or body(modelMapper...)
-    }
-
-    // GET ALL
-    public ResponseEntity<List<DoctorResponseDto>> showAllfromService() {
-        List<Doctor> doctors = doctorRepository.findAll();
-        return ResponseEntity.ok(doctors.stream().map(doct -> modelMapper.map(doct, DoctorResponseDto.class)).toList());
-    }
-
-    // GET BY ID
-    public ResponseEntity<DoctorResponseDto> showByIdfromService(long id) {
-        Optional<Doctor> doctorOptional = doctorRepository.findById(id);
-        if (doctorOptional.isPresent()) {
-            return ResponseEntity.ok(modelMapper.map(doctorOptional, DoctorResponseDto.class));
-        } else
-            return ResponseEntity.notFound().build();
     }
 
     // Update
@@ -56,7 +41,21 @@ public class DoctorService {
             return ResponseEntity.noContent().build();
     }
 
-    // DELETE
+    // Read
+    public ResponseEntity<List<DoctorResponseDto>> readAllfromService() {
+        List<Doctor> doctors = doctorRepository.findAll();
+        return ResponseEntity.ok(doctors.stream().map(doct -> modelMapper.map(doct, DoctorResponseDto.class)).toList());
+    }
+
+    public ResponseEntity<DoctorResponseDto> readByIdfromService(long id) {
+        Optional<Doctor> doctorOptional = doctorRepository.findById(id);
+        if (doctorOptional.isPresent()) {
+            return ResponseEntity.ok(modelMapper.map(doctorOptional, DoctorResponseDto.class));
+        } else
+            return ResponseEntity.notFound().build();
+    }
+
+    // Delete
     public ResponseEntity<Void> deletefromService(Long id) {
         Optional<Doctor> doctor = doctorRepository.findById(id);
         if (doctor.isPresent()) {
