@@ -41,13 +41,13 @@ public class PatientService {
     }
 
     // read
-    public ResponseEntity<List<PatientResponseDto>> showAllfromService() {
+    public ResponseEntity<List<PatientResponseDto>> readAllfromService() {
         List<Patient> patients = patientRepository.findAll();
         return ResponseEntity.ok()
                 .body(patients.stream().map(temp -> modelMapper.map(temp, PatientResponseDto.class)).toList());
     }
 
-    public ResponseEntity<PatientResponseDto> showByIdfromService(Long id) {
+    public ResponseEntity<PatientResponseDto> readByIdfromService(Long id) {
         Optional<Patient> patient = patientRepository.findById(id);
         if (patient.isPresent())
             return ResponseEntity.ok().body(modelMapper.map(patient, PatientResponseDto.class));

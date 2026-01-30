@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/patient")
@@ -23,19 +25,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class PatientController {
     private final PatientService patientService;
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<PatientResponseDto>> showAllPat() {
-        return patientService.showAllfromService();
-    }
-
-    @GetMapping("/showsById/{id}")
-    public ResponseEntity<PatientResponseDto> showById(@PathVariable Long id) {
-        return patientService.showByIdfromService(id);
-    }
-
     @PostMapping("/create")
     public ResponseEntity<PatientRequestDto> create(PatientRequestDto patientDto) {
         return patientService.createfromService(patientDto);
+    }
+
+    @PutMapping("update/{id}")
+    public ResponseEntity<PatientRequestDto> update(@RequestBody PatientRequestDto patientDto,
+            @PathVariable Long id) {
+        return patientService.updatefromService(patientDto, id);
+    }
+
+    @GetMapping("/readAll")
+    public ResponseEntity<List<PatientResponseDto>> showAllPat() {
+        return patientService.readAllfromService();
+    }
+
+    @GetMapping("/readById/{id}")
+    public ResponseEntity<PatientResponseDto> showById(@PathVariable Long id) {
+        return patientService.readByIdfromService(id);
     }
 
     @DeleteMapping("/delete")

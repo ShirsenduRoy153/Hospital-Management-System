@@ -28,7 +28,7 @@ public class DoctorService {
     }
 
     // Update
-    public ResponseEntity<DoctorRequestDto> updatefromService(Long id, DoctorRequestDto doctorDto) {
+    public ResponseEntity<DoctorRequestDto> updatefromService(DoctorRequestDto doctorDto, Long id) {
         Optional<Doctor> doctor = doctorRepository.findById(id);
         if (doctor.isPresent()) {
             doctor.get().setName(doctorDto.getName());
