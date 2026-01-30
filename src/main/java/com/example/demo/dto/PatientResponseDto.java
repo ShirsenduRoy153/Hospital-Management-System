@@ -14,6 +14,6 @@ public class PatientResponseDto {
     private Integer age;
     private Float height;
     private Float weight;
-    private List<MedicalRecordDto> medicalRecords;
+    private List<MedicalRecordResponseDto> medicalRecords;
     private List<AppointmentResponseDto> appointments;
 }

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppointmentRequestDto {
-    private Long appointment_id;
     private LocalDate appointmentDate;
     private DayOfWeek dayOfWeek;
     private LocalTime appointmentTime;
