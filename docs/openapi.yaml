@@ -1,0 +1,291 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /patient/update/{id}:
+    put:
+      tags:
+      - patient-controller
+      operationId: update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatientRequestDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PatientRequestDto"
+  /doctor/update/{id}:
+    put:
+      tags:
+      - doctor-controller
+      operationId: update_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DoctorRequestDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DoctorRequestDto"
+  /patient/create:
+    post:
+      tags:
+      - patient-controller
+      operationId: create
+      parameters:
+      - name: patientDto
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/PatientRequestDto"
+      responses:
+        "200":
+          description: OK
+  /doctor/create:
+    post:
+      tags:
+      - doctor-controller
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DoctorRequestDto"
+        required: true
+      responses:
+        "200":
+          description: OK
+  /patient/readById/{id}:
+    get:
+      tags:
+      - patient-controller
+      operationId: showById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PatientResponseDto"
+  /patient/readAll:
+    get:
+      tags:
+      - patient-controller
+      operationId: showAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PatientResponseDto"
+  /doctor/readById/{id}:
+    get:
+      tags:
+      - doctor-controller
+      operationId: readById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DoctorResponseDto"
+  /doctor/readAll:
+    get:
+      tags:
+      - doctor-controller
+      operationId: readAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DoctorResponseDto"
+  /patient/delete:
+    delete:
+      tags:
+      - patient-controller
+      operationId: deleteById
+      parameters: []
+      responses:
+        "200":
+          description: OK
+  /doctor/delete/{id}:
+    delete:
+      tags:
+      - doctor-controller
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    PatientRequestDto:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+          format: int32
+        height:
+          type: number
+          format: float
+        weight:
+          type: number
+          format: float
+    DoctorRequestDto:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+          format: int32
+        specialization:
+          type: string
+        department:
+          type: string
+    AppointmentResponseDto:
+      type: object
+      properties:
+        appointment_id:
+          type: integer
+          format: int64
+        appointmentDate:
+          type: string
+          format: date
+        dayOfWeek:
+          type: string
+          enum:
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+          - THURSDAY
+          - FRIDAY
+          - SATURDAY
+          - SUNDAY
+        appointmentTime:
+          $ref: "#/components/schemas/LocalTime"
+        patientDto:
+          $ref: "#/components/schemas/AppointmentResponseDto"
+        doctorDto:
+          $ref: "#/components/schemas/DoctorResponseDto"
+    DoctorResponseDto:
+      type: object
+      properties:
+        doctor_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        age:
+          type: integer
+          format: int32
+        specialization:
+          type: string
+        department:
+          type: string
+    LocalTime:
+      type: object
+      properties:
+        hour:
+          type: integer
+          format: int32
+        minute:
+          type: integer
+          format: int32
+        second:
+          type: integer
+          format: int32
+        nano:
+          type: integer
+          format: int32
+    MedicalRecordResponseDto:
+      type: object
+      properties:
+        medicalrecord_id:
+          type: integer
+          format: int64
+        medicalCondition:
+          type: string
+        patientDto:
+          $ref: "#/components/schemas/PatientResponseDto"
+    PatientResponseDto:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+          format: int32
+        height:
+          type: number
+          format: float
+        weight:
+          type: number
+          format: float
+        medicalRecords:
+          type: array
+          items:
+            $ref: "#/components/schemas/MedicalRecordResponseDto"
+        appointments:
+          type: array
+          items:
+            $ref: "#/components/schemas/AppointmentResponseDto"
