@@ -25,19 +25,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class PatientController {
     private final PatientService patientService;
 
+    // create
     @PostMapping("/create")
     public ResponseEntity<PatientRequestDto> create(PatientRequestDto patientDto) {
         return patientService.createfromService(patientDto);
     }
 
+    // update
     @PutMapping("update/{id}")
     public ResponseEntity<PatientRequestDto> update(@RequestBody PatientRequestDto patientDto,
             @PathVariable Long id) {
         return patientService.updatefromService(patientDto, id);
     }
 
+    // read
     @GetMapping("/readAll")
-    public ResponseEntity<List<PatientResponseDto>> showAllPat() {
+    public ResponseEntity<List<PatientResponseDto>> showAll() {
         return patientService.readAllfromService();
     }
 
@@ -46,6 +49,7 @@ public class PatientController {
         return patientService.readByIdfromService(id);
     }
 
+    // delete
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         return patientService.deleteByIdfromService(id);
