@@ -20,7 +20,27 @@ public class PatientService {
     private final ModelMapper modelMapper;
     private final PatientRepository patientRepository;
 
-    // GET
+    // create
+    public ResponseEntity<PatientRequestDto> createfromService(PatientRequestDto patientDto) {
+        patientRepository.save(modelMapper.map(patientDto, Patient.class));
+        return ResponseEntity.ok().body(patientDto);
+    }
+
+    // update
+    public ResponseEntity<PatientRequestDto> updatefromService(PatientRequestDto patientRequestDto, Long id) {
+        Optional<Patient> patient = patientRepository.findById(id);
+        if (patient.isPresent()) {
+            patient.get().setName(patientRequestDto.getName());
+            patient.get().setAge(patientRequestDto.getAge());
+            patient.get().setHeight(patientRequestDto.getHeight());
+            patient.get().setWeight(patientRequestDto.getWeight());
+            patientRepository.save(patient.get());
+            return ResponseEntity.ok().body(patientRequestDto);
+        } else
+            return ResponseEntity.notFound().build();
+    }
+
+    // read
     public ResponseEntity<List<PatientResponseDto>> showAllfromService() {
         List<Patient> patients = patientRepository.findAll();
         return ResponseEntity.ok()
@@ -35,13 +55,7 @@ public class PatientService {
             return ResponseEntity.notFound().build();
     }
 
-    // CREATE
-    public ResponseEntity<PatientRequestDto> createfromService(PatientRequestDto patientDto) {
-        patientRepository.save(modelMapper.map(patientDto, Patient.class));
-        return ResponseEntity.ok().body(patientDto);
-    }
-
-    // DELETE
+    // delete
     public ResponseEntity<Void> deleteByIdfromService(Long id) {
         Optional<Patient> patient = patientRepository.findById(id);
         if (patient.isPresent()) {
