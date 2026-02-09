@@ -45,7 +45,7 @@ public class PatientService {
     public ResponseEntity<List<PatientResponseDto>> readAllfromService() {
         List<Patient> patients = patientRepository.findAll();
         return ResponseEntity.ok()
-                .body(patients.stream().map(temp -> modelMapper.map(temp, PatientResponseDto.class)).toList());
+                .body(patients.stream().map(patient -> modelMapper.map(patient, PatientResponseDto.class)).toList());
     }
 
     public ResponseEntity<PatientResponseDto> readByIdfromService(Long id) {

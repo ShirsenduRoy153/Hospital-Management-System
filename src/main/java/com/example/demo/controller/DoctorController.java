@@ -44,7 +44,7 @@ public class DoctorController {
     }
 
     @GetMapping("/readById/{id}")
-    public ResponseEntity<DoctorResponseDto> readById(@PathVariable long id) {
+    public ResponseEntity<DoctorResponseDto> readById(@PathVariable Long id) {
         return doctorService.readByIdfromService(id);
     }
 

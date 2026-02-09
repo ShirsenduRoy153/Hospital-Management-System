@@ -27,7 +27,7 @@ public class PatientController {
 
     // create
     @PostMapping("/create")
-    public ResponseEntity<Void> create(PatientRequestDto patientDto) {
+    public ResponseEntity<Void> create(@RequestBody PatientRequestDto patientDto) {
         return patientService.createfromService(patientDto);
     }
 
@@ -40,17 +40,17 @@ public class PatientController {
 
     // read
     @GetMapping("/readAll")
-    public ResponseEntity<List<PatientResponseDto>> showAll() {
+    public ResponseEntity<List<PatientResponseDto>> readAll() {
         return patientService.readAllfromService();
     }
 
     @GetMapping("/readById/{id}")
-    public ResponseEntity<PatientResponseDto> showById(@PathVariable Long id) {
+    public ResponseEntity<PatientResponseDto> readById(@PathVariable Long id) {
         return patientService.readByIdfromService(id);
     }
 
     // delete
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         return patientService.deleteByIdfromService(id);
     }
