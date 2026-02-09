@@ -11,7 +11,11 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.AppointmentRequestDto;
 import com.example.demo.dto.AppointmentResponseDto;
 import com.example.demo.entity.Appointment;
+import com.example.demo.entity.Doctor;
+import com.example.demo.entity.Patient;
 import com.example.demo.repository.AppointmentRepository;
+import com.example.demo.repository.DoctorRepository;
+import com.example.demo.repository.PatientRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,11 +23,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
+    private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
     private final ModelMapper modelMapper;
 
     // create
     public ResponseEntity<Void> createfromService(AppointmentRequestDto appointmentRequestDto) {
-        appointmentRepository.save(modelMapper.map(appointmentRequestDto, Appointment.class));
+        Appointment appointment = new Appointment();
+        // Map simple fields
+        appointment.setAppointmentDate(appointmentRequestDto.getAppointmentDate());
+        appointment.setAppointmentTime(appointmentRequestDto.getAppointmentTime());
+        appointment.setDayOfWeek(appointmentRequestDto.getAppointmentDate().getDayOfWeek());
+
+        // Map relationships
+        Doctor doctor = doctorRepository.findById(appointmentRequestDto.getDoctor_id())
+                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+        Patient patient = patientRepository.findById(appointmentRequestDto.getPatient_id())
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+
+        appointment.setDoctor(doctor);
+        appointment.setPatient(patient);
+
+        appointmentRepository.save(appointment);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

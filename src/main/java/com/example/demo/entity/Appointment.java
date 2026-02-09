@@ -34,7 +34,7 @@ public class Appointment {
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime upDateTime;
+    private LocalDateTime updateAt;
 
     @Column
     private LocalDate appointmentDate;
