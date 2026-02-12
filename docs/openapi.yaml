@@ -30,12 +30,32 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/PatientRequestDto"
+                $ref: "#/components/schemas/PatientResponseDto"
+  /medicalrecord/update/{id}:
+    put:
+      tags:
+      - medical-record-controller
+      operationId: update_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MedicalRecordRequestDto"
+      responses:
+        "200":
+          description: OK
   /doctor/update/{id}:
     put:
       tags:
       - doctor-controller
-      operationId: update_1
+      operationId: update_2
       parameters:
       - name: id
         in: path
@@ -55,12 +75,12 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/DoctorRequestDto"
+                $ref: "#/components/schemas/DoctorResponseDto"
   /appointment/update/{id}:
     put:
       tags:
       - appointment-controller
-      operationId: update_2
+      operationId: update_3
       parameters:
       - name: id
         in: path
@@ -77,21 +97,30 @@ paths:
       responses:
         "200":
           description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/AppointmentRequestDto"
   /patient/create:
     post:
       tags:
       - patient-controller
       operationId: create
-      parameters:
-      - name: patientDto
-        in: query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatientRequestDto"
         required: true
-        schema:
-          $ref: "#/components/schemas/PatientRequestDto"
+      responses:
+        "200":
+          description: OK
+  /medicalrecord/create:
+    post:
+      tags:
+      - medical-record-controller
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MedicalRecordRequestDto"
       responses:
         "200":
           description: OK
@@ -99,7 +128,7 @@ paths:
     post:
       tags:
       - doctor-controller
-      operationId: create_1
+      operationId: create_2
       requestBody:
         content:
           application/json:
@@ -113,7 +142,7 @@ paths:
     post:
       tags:
       - appointment-controller
-      operationId: create_2
+      operationId: create_3
       requestBody:
         content:
           application/json:
@@ -127,7 +156,7 @@ paths:
     get:
       tags:
       - patient-controller
-      operationId: showById
+      operationId: readById
       parameters:
       - name: id
         in: path
@@ -146,7 +175,7 @@ paths:
     get:
       tags:
       - patient-controller
-      operationId: showAll
+      operationId: readAll
       responses:
         "200":
           description: OK
@@ -156,11 +185,44 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/PatientResponseDto"
+  /medicalrecord/readById/{id}:
+    get:
+      tags:
+      - medical-record-controller
+      operationId: readById_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MedicalRecordResponseDto"
+  /medicalrecord/readAll:
+    get:
+      tags:
+      - medical-record-controller
+      operationId: readAll_1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MedicalRecordResponseDto"
   /doctor/readById/{id}:
     get:
       tags:
       - doctor-controller
-      operationId: readById
+      operationId: readById_2
       parameters:
       - name: id
         in: path
@@ -179,7 +241,7 @@ paths:
     get:
       tags:
       - doctor-controller
-      operationId: readAll
+      operationId: readAll_2
       responses:
         "200":
           description: OK
@@ -189,25 +251,11 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DoctorResponseDto"
-  /appointment/read:
+  /appointment/readById/{id}:
     get:
       tags:
       - appointment-controller
-      operationId: read
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/AppointmentResponseDto"
-  /appointment/read/{id}:
-    get:
-      tags:
-      - appointment-controller
-      operationId: readById_1
+      operationId: readById_3
       parameters:
       - name: id
         in: path
@@ -222,12 +270,47 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/AppointmentResponseDto"
-  /patient/delete:
+  /appointment/readAll:
+    get:
+      tags:
+      - appointment-controller
+      operationId: readAll_3
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AppointmentResponseDto"
+  /patient/delete/{id}:
     delete:
       tags:
       - patient-controller
       operationId: deleteById
-      parameters: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /medicalrecord/delete/{id}:
+    delete:
+      tags:
+      - medical-record-controller
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
       responses:
         "200":
           description: OK
@@ -235,7 +318,7 @@ paths:
     delete:
       tags:
       - doctor-controller
-      operationId: delete
+      operationId: delete_1
       parameters:
       - name: id
         in: path
@@ -250,7 +333,7 @@ paths:
     delete:
       tags:
       - appointment-controller
-      operationId: delete_1
+      operationId: delete_2
       parameters:
       - name: id
         in: path
@@ -277,9 +360,49 @@ components:
         weight:
           type: number
           format: float
+    PatientResponseDto:
+      type: object
+      properties:
+        patient_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        age:
+          type: integer
+          format: int32
+        height:
+          type: number
+          format: float
+        weight:
+          type: number
+          format: float
+    MedicalRecordRequestDto:
+      type: object
+      properties:
+        medicalCondition:
+          type: string
+        patient_id:
+          type: integer
+          format: int64
     DoctorRequestDto:
       type: object
       properties:
+        name:
+          type: string
+        age:
+          type: integer
+          format: int32
+        specialization:
+          type: string
+        department:
+          type: string
+    DoctorResponseDto:
+      type: object
+      properties:
+        doctor_id:
+          type: integer
+          format: int64
         name:
           type: string
         age:
@@ -295,16 +418,6 @@ components:
         appointmentDate:
           type: string
           format: date
-        dayOfWeek:
-          type: string
-          enum:
-          - MONDAY
-          - TUESDAY
-          - WEDNESDAY
-          - THURSDAY
-          - FRIDAY
-          - SATURDAY
-          - SUNDAY
         appointmentTime:
           $ref: "#/components/schemas/LocalTime"
         doctor_id:
@@ -328,6 +441,16 @@ components:
         nano:
           type: integer
           format: int32
+    MedicalRecordResponseDto:
+      type: object
+      properties:
+        medicalrecord_id:
+          type: integer
+          format: int64
+        medicalCondition:
+          type: string
+        patientDto:
+          $ref: "#/components/schemas/PatientResponseDto"
     AppointmentResponseDto:
       type: object
       properties:
@@ -353,50 +476,3 @@ components:
           $ref: "#/components/schemas/PatientResponseDto"
         doctorDto:
           $ref: "#/components/schemas/DoctorResponseDto"
-    DoctorResponseDto:
-      type: object
-      properties:
-        doctor_id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        age:
-          type: integer
-          format: int32
-        specialization:
-          type: string
-        department:
-          type: string
-    MedicalRecordResponseDto:
-      type: object
-      properties:
-        medicalrecord_id:
-          type: integer
-          format: int64
-        medicalCondition:
-          type: string
-        patientDto:
-          $ref: "#/components/schemas/PatientResponseDto"
-    PatientResponseDto:
-      type: object
-      properties:
-        name:
-          type: string
-        age:
-          type: integer
-          format: int32
-        height:
-          type: number
-          format: float
-        weight:
-          type: number
-          format: float
-        medicalRecords:
-          type: array
-          items:
-            $ref: "#/components/schemas/MedicalRecordResponseDto"
-        appointments:
-          type: array
-          items:
-            $ref: "#/components/schemas/AppointmentResponseDto"
