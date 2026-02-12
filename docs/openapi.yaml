@@ -48,9 +48,14 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/MedicalRecordRequestDto"
+        required: true
       responses:
         "200":
           description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MedicalRecordResponseDto"
   /doctor/update/{id}:
     put:
       tags:
@@ -121,6 +126,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/MedicalRecordRequestDto"
+        required: true
       responses:
         "200":
           description: OK
@@ -385,6 +391,16 @@ components:
         patient_id:
           type: integer
           format: int64
+    MedicalRecordResponseDto:
+      type: object
+      properties:
+        medicalrecord_id:
+          type: integer
+          format: int64
+        medicalCondition:
+          type: string
+        patientDto:
+          $ref: "#/components/schemas/PatientResponseDto"
     DoctorRequestDto:
       type: object
       properties:
@@ -441,16 +457,6 @@ components:
         nano:
           type: integer
           format: int32
-    MedicalRecordResponseDto:
-      type: object
-      properties:
-        medicalrecord_id:
-          type: integer
-          format: int64
-        medicalCondition:
-          type: string
-        patientDto:
-          $ref: "#/components/schemas/PatientResponseDto"
     AppointmentResponseDto:
       type: object
       properties:
