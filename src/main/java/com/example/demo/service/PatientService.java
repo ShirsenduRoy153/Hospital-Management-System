@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.PatientRequestDto;
 import com.example.demo.dto.PatientResponseDto;
+import com.example.demo.dto.PatientRequestDto;
 import com.example.demo.entity.Patient;
 import com.example.demo.repository.PatientRepository;
 
@@ -28,7 +28,7 @@ public class PatientService {
     }
 
     // update
-    public ResponseEntity<PatientRequestDto> updatefromService(PatientRequestDto patientRequestDto, Long id) {
+    public ResponseEntity<PatientResponseDto> updatefromService(PatientRequestDto patientRequestDto, Long id) {
         Optional<Patient> patient = patientRepository.findById(id);
         if (patient.isPresent()) {
             patient.get().setName(patientRequestDto.getName());
@@ -36,7 +36,7 @@ public class PatientService {
             patient.get().setHeight(patientRequestDto.getHeight());
             patient.get().setWeight(patientRequestDto.getWeight());
             patientRepository.save(patient.get());
-            return ResponseEntity.ok().body(patientRequestDto);
+            return ResponseEntity.ok().body(modelMapper.map(patient, PatientResponseDto.class));
         } else
             return ResponseEntity.notFound().build();
     }
@@ -57,7 +57,7 @@ public class PatientService {
     }
 
     // delete
-    public ResponseEntity<Void> deleteByIdfromService(Long id) {
+    public ResponseEntity<Void> deletefromService(Long id) {
         Optional<Patient> patient = patientRepository.findById(id);
         if (patient.isPresent()) {
             patientRepository.delete(patient.get());

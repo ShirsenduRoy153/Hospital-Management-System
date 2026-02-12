@@ -49,17 +49,29 @@ public class AppointmentService {
     }
 
     // update
-    public ResponseEntity<AppointmentRequestDto> updatefromService(AppointmentRequestDto appointmentRequestDto,
+    public ResponseEntity<Void> updatefromService(AppointmentRequestDto appointmentRequestDto,
             Long id) {
         Optional<Appointment> appointment = appointmentRepository.findById(id);
-        if (appointment.isPresent())
-            return ResponseEntity.ok().body(appointmentRequestDto);
-        else
+        if (appointment.isPresent()) {
+            appointment.get().setAppointmentDate(appointmentRequestDto.getAppointmentDate());
+            appointment.get().setAppointmentTime(appointmentRequestDto.getAppointmentTime());
+            Optional<Patient> patient = patientRepository.findById(appointmentRequestDto.getPatient_id());
+            if (patient.isPresent())
+                appointment.get().setPatient(patient.get());
+            else
+                return ResponseEntity.notFound().build();
+            Optional<Doctor> doctor = doctorRepository.findById(appointmentRequestDto.getDoctor_id());
+            if (doctor.isPresent())
+                appointment.get().setDoctor(doctor.get());
+            else
+                return ResponseEntity.notFound().build();
+            return ResponseEntity.status(200).build();
+        } else
             return ResponseEntity.notFound().build();
     }
 
     // read
-    public ResponseEntity<List<AppointmentResponseDto>> readfromService() {
+    public ResponseEntity<List<AppointmentResponseDto>> readAllfromService() {
         List<Appointment> appointment = appointmentRepository.findAll();
         List<AppointmentResponseDto> appointmentResponseDtos = appointment.stream()
                 .map(n -> modelMapper.map(n, AppointmentResponseDto.class)).toList();

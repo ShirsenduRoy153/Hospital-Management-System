@@ -33,18 +33,18 @@ public class AppointmentController {
 
     // update
     @PutMapping("update/{id}")
-    public ResponseEntity<AppointmentRequestDto> update(@RequestBody AppointmentRequestDto appointmentRequestDto,
+    public ResponseEntity<Void> update(@RequestBody AppointmentRequestDto appointmentRequestDto,
             @PathVariable Long id) {
         return appointmentService.updatefromService(appointmentRequestDto, id);
     }
 
     // read
-    @GetMapping("read")
-    public ResponseEntity<List<AppointmentResponseDto>> read() {
-        return appointmentService.readfromService();
+    @GetMapping("readAll")
+    public ResponseEntity<List<AppointmentResponseDto>> readAll() {
+        return appointmentService.readAllfromService();
     }
 
-    @GetMapping("read/{id}")
+    @GetMapping("readById/{id}")
     public ResponseEntity<AppointmentResponseDto> readById(@PathVariable Long id) {
         return appointmentService.readByIdfromService(id);
     }

@@ -28,7 +28,7 @@ public class DoctorService {
     }
 
     // Update
-    public ResponseEntity<DoctorRequestDto> updatefromService(DoctorRequestDto doctorDto, Long id) {
+    public ResponseEntity<DoctorResponseDto> updatefromService(DoctorRequestDto doctorDto, Long id) {
         Optional<Doctor> doctor = doctorRepository.findById(id);
         if (doctor.isPresent()) {
             doctor.get().setName(doctorDto.getName());
@@ -36,7 +36,7 @@ public class DoctorService {
             doctor.get().setSpecialization(doctorDto.getSpecialization());
             doctor.get().setDepartment(doctorDto.getDepartment());
             doctorRepository.save(doctor.get());
-            return ResponseEntity.ok().body(doctorDto);
+            return ResponseEntity.ok().body(modelMapper.map(doctor, DoctorResponseDto.class));
         } else
             return ResponseEntity.noContent().build();
     }
@@ -63,6 +63,6 @@ public class DoctorService {
             doctorRepository.delete(doctor.get());
             return ResponseEntity.ok().build();
         } else
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.notFound().build();
     }
 }

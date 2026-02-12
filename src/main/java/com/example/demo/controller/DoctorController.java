@@ -27,14 +27,15 @@ public class DoctorController {
 
     // create
     @PostMapping("/create")
-    public ResponseEntity<Void> create(@RequestBody DoctorRequestDto doctorDto) {
-        return doctorService.createfromService(doctorDto);
+    public ResponseEntity<Void> create(@RequestBody DoctorRequestDto doctorRequestDto) {
+        return doctorService.createfromService(doctorRequestDto);
     }
 
     // update
     @PutMapping("update/{id}")
-    public ResponseEntity<DoctorRequestDto> update(@RequestBody DoctorRequestDto doctorDto, @PathVariable Long id) {
-        return doctorService.updatefromService(doctorDto, id);
+    public ResponseEntity<DoctorResponseDto> update(@RequestBody DoctorRequestDto doctorRequestDto,
+            @PathVariable Long id) {
+        return doctorService.updatefromService(doctorRequestDto, id);
     }
 
     // read

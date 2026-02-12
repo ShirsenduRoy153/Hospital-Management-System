@@ -33,7 +33,7 @@ public class PatientController {
 
     // update
     @PutMapping("update/{id}")
-    public ResponseEntity<PatientRequestDto> update(@RequestBody PatientRequestDto patientDto,
+    public ResponseEntity<PatientResponseDto> update(@RequestBody PatientRequestDto patientDto,
             @PathVariable Long id) {
         return patientService.updatefromService(patientDto, id);
     }
@@ -52,6 +52,6 @@ public class PatientController {
     // delete
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        return patientService.deleteByIdfromService(id);
+        return patientService.deletefromService(id);
     }
 }
