@@ -30,12 +30,11 @@ public class AppointmentService {
     // create
     public ResponseEntity<Void> createfromService(AppointmentRequestDto appointmentRequestDto) {
         Appointment appointment = new Appointment();
-        // Map simple fields
+
         appointment.setAppointmentDate(appointmentRequestDto.getAppointmentDate());
         appointment.setAppointmentTime(appointmentRequestDto.getAppointmentTime());
         appointment.setDayOfWeek(appointmentRequestDto.getAppointmentDate().getDayOfWeek());
 
-        // Map relationships
         Doctor doctor = doctorRepository.findById(appointmentRequestDto.getDoctor_id())
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));
         Patient patient = patientRepository.findById(appointmentRequestDto.getPatient_id())
@@ -65,7 +64,7 @@ public class AppointmentService {
                 appointment.get().setDoctor(doctor.get());
             else
                 return ResponseEntity.notFound().build();
-            return ResponseEntity.status(200).build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } else
             return ResponseEntity.notFound().build();
     }

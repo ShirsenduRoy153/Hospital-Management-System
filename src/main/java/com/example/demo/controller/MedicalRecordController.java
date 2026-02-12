@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,6 @@ import com.example.demo.dto.MedicalRecordRequestDto;
 import com.example.demo.dto.MedicalRecordResponseDto;
 import com.example.demo.service.MedicalRecordService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -32,7 +32,7 @@ public class MedicalRecordController {
 
     // update
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> update(@RequestBody MedicalRecordRequestDto medicalRecordRequestDto,
+    public ResponseEntity<MedicalRecordResponseDto> update(@RequestBody MedicalRecordRequestDto medicalRecordRequestDto,
             @PathVariable Long id) {
         return medicalRecordService.updatefromService(medicalRecordRequestDto, id);
     }

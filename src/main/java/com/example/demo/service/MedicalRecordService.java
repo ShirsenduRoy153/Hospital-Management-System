@@ -39,7 +39,7 @@ public class MedicalRecordService {
     }
 
     // UPDATE
-    public ResponseEntity<Void> updatefromService(MedicalRecordRequestDto medicalRecordRequestDto,
+    public ResponseEntity<MedicalRecordResponseDto> updatefromService(MedicalRecordRequestDto medicalRecordRequestDto,
             Long id) {
         Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findById(id);
         if (medicalRecord.isPresent()) {
@@ -48,7 +48,8 @@ public class MedicalRecordService {
             if (patient.isPresent()) {
                 medicalRecord.get().setPatient(patient.get());
                 medicalRecordRepository.save(medicalRecord.get());
-                return ResponseEntity.status(200).build();
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(modelMapper.map(medicalRecord, MedicalRecordResponseDto.class));
             } else
                 return ResponseEntity.notFound().build();
         } else
@@ -58,7 +59,7 @@ public class MedicalRecordService {
     // READ
     public ResponseEntity<List<MedicalRecordResponseDto>> readAllfromService() {
         List<MedicalRecord> medicalRecords = medicalRecordRepository.findAll();
-        return ResponseEntity.status(200)
+        return ResponseEntity.status(HttpStatus.FOUND)
                 .body(medicalRecords.stream().map(n -> modelMapper.map(n, MedicalRecordResponseDto.class)).toList());
     }
 
@@ -67,7 +68,7 @@ public class MedicalRecordService {
         if (medicalRecord.isPresent()) {
             MedicalRecordResponseDto medicalRecordResponseDto = modelMapper.map(medicalRecord,
                     MedicalRecordResponseDto.class);
-            return ResponseEntity.status(200).body(medicalRecordResponseDto);
+            return ResponseEntity.status(HttpStatus.FOUND).body(medicalRecordResponseDto);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -75,7 +76,10 @@ public class MedicalRecordService {
 
     // DELETE
     public ResponseEntity<Void> deletefromService(Long id) {
-
-        return ResponseEntity.status(200).build();
+        Optional<MedicalRecord> medicalRecord = medicalRecordRepository.findById(id);
+        if (medicalRecord.isPresent())
+            return ResponseEntity.status(HttpStatus.OK).build();
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
