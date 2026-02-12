@@ -34,7 +34,7 @@ public class MedicalRecord {
     @Column
     private String medicalCondition;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "fk_patient_id", nullable = false)
     private Patient patient;
 }
