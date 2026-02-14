@@ -21,6 +21,10 @@ Check running containers: docker ps
 
 📘 API Documentation (Swagger)
 
+Swagger Docs:
+
+https://shirsenduroy153.github.io/Hospital-Management-System/
+
 Swagger UI:
 
 http://localhost:8080/swagger-ui/index.html#/
