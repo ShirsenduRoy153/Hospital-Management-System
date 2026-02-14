@@ -1,6 +1,35 @@
-# Hospital Management System
+🏥 Hospital Management System
 
 A Spring Boot–based Hospital Management System demonstrating core JPA entity relationships including one-to-one, one-to-many, and many-to-many. The application manages hospital operations such as patients, doctors, appointments, medical records, and billing through RESTful APIs.
+
+
+🚀 Quick Start
+
+
+🔹 Run Locally : java -jar target/demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=local
+
+🔹 Run with Docker (Recommended)
+
+docker compose up --build
+
+Run in detached mode: docker compose up -d
+
+Selective start (only app): docker compose up app
+
+Check running containers: docker ps
+
+
+📘 API Documentation (Swagger)
+
+Swagger UI:
+
+http://localhost:8080/swagger-ui/index.html#/
+
+
+Download OpenAPI spec (YAML):
+
+http://localhost:8080/v3/api-docs.yaml
+
 
 🚀 Features
 
